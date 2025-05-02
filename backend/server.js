@@ -5,6 +5,7 @@ const app = express();
 app.use(cors()); // ← 追加
 app.use(express.json());
 app.use(express.static('frontend')); // ← フロント表示用
+app.use(express.static('frontend'));
 
 const timetable = [];
 
