@@ -7,7 +7,7 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-// ✅ フロントエンド配信設定
+// ここが超重要：フロントエンドの配信
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 const timetable = [];
