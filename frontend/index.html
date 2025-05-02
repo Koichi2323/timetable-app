@@ -2,368 +2,74 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>時間割アプリ</title>
   <style>
     body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      max-width: 800px;
+      font-family: sans-serif;
+      max-width: 600px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #f5f5f5;
     }
-    h1 {
-      color: #333;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .form-container {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    .form-row {
-      display: flex;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    input, select {
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      flex: 1;
-      min-width: 120px;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      background: white;
-      padding: 12px 15px;
-      margin-bottom: 8px;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-    }
-    .delete-btn {
-      background-color: #f44336;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 2px 8px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-    .timetable {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .timetable th, .timetable td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
-    .timetable th {
-      background-color: #f2f2f2;
-    }
-    .subject-item {
-      background-color: #e3f2fd;
-      padding: 4px;
-      border-radius: 4px;
-      margin: 2px 0;
+    input, button {
+      padding: 8px;
+      margin: 5px 0;
     }
   </style>
 </head>
 <body>
   <h1>時間割アプリ</h1>
-  
-  <div class="form-container">
-    <form id="timetable-form">
-      <div class="form-row">
-        <select id="day" required>
-          <option value="">曜日を選択</option>
-          <option value="月">月曜日</option>
-          <option value="火">火曜日</option>
-          <option value="水">水曜日</option>
-          <option value="木">木曜日</option>
-          <option value="金">金曜日</option>
-          <option value="土">土曜日</option>
-          <option value="日">日曜日</option>
-        </select>
-        
-        <select id="period" required>
-          <option value="">時限を選択</option>
-          <option value="1">1限目</option>
-          <option value="2">2限目</option>
-          <option value="3">3限目</option>
-          <option value="4">4限目</option>
-          <option value="5">5限目</option>
-          <option value="6">6限目</option>
-        </select>
-        
-        <input type="text" id="subject" placeholder="科目名" required>
-        <input type="text" id="room" placeholder="教室名（任意）">
-      </div>
-      
-      <div class="form-row">
-        <button type="submit">登録</button>
-      </div>
-    </form>
-  </div>
-  
-  <h2>登録済み科目一覧</h2>
-  <ul id="subject-list"></ul>
-  
-  <h2>時間割表</h2>
-  <table class="timetable">
-    <thead>
-      <tr>
-        <th></th>
-        <th>月</th>
-        <th>火</th>
-        <th>水</th>
-        <th>木</th>
-        <th>金</th>
-        <th>土</th>
-        <th>日</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>1限</th>
-        <td id="cell-月-1"></td>
-        <td id="cell-火-1"></td>
-        <td id="cell-水-1"></td>
-        <td id="cell-木-1"></td>
-        <td id="cell-金-1"></td>
-        <td id="cell-土-1"></td>
-        <td id="cell-日-1"></td>
-      </tr>
-      <tr>
-        <th>2限</th>
-        <td id="cell-月-2"></td>
-        <td id="cell-火-2"></td>
-        <td id="cell-水-2"></td>
-        <td id="cell-木-2"></td>
-        <td id="cell-金-2"></td>
-        <td id="cell-土-2"></td>
-        <td id="cell-日-2"></td>
-      </tr>
-      <tr>
-        <th>3限</th>
-        <td id="cell-月-3"></td>
-        <td id="cell-火-3"></td>
-        <td id="cell-水-3"></td>
-        <td id="cell-木-3"></td>
-        <td id="cell-金-3"></td>
-        <td id="cell-土-3"></td>
-        <td id="cell-日-3"></td>
-      </tr>
-      <tr>
-        <th>4限</th>
-        <td id="cell-月-4"></td>
-        <td id="cell-火-4"></td>
-        <td id="cell-水-4"></td>
-        <td id="cell-木-4"></td>
-        <td id="cell-金-4"></td>
-        <td id="cell-土-4"></td>
-        <td id="cell-日-4"></td>
-      </tr>
-      <tr>
-        <th>5限</th>
-        <td id="cell-月-5"></td>
-        <td id="cell-火-5"></td>
-        <td id="cell-水-5"></td>
-        <td id="cell-木-5"></td>
-        <td id="cell-金-5"></td>
-        <td id="cell-土-5"></td>
-        <td id="cell-日-5"></td>
-      </tr>
-      <tr>
-        <th>6限</th>
-        <td id="cell-月-6"></td>
-        <td id="cell-火-6"></td>
-        <td id="cell-水-6"></td>
-        <td id="cell-木-6"></td>
-        <td id="cell-金-6"></td>
-        <td id="cell-土-6"></td>
-        <td id="cell-日-6"></td>
-      </tr>
-    </tbody>
-  </table>
+
+  <form id="timetable-form">
+    <input type="text" id="subject" placeholder="科目名を入力" required>
+    <button type="submit">登録</button>
+  </form>
+
+  <h2>登録した科目</h2>
+  <ul id="timetable-list"></ul>
 
   <script>
-    // DOM要素の取得
     const form = document.getElementById('timetable-form');
-    const dayInput = document.getElementById('day');
-    const periodInput = document.getElementById('period');
     const subjectInput = document.getElementById('subject');
-    const roomInput = document.getElementById('room');
-    const subjectList = document.getElementById('subject-list');
-    
+    const list = document.getElementById('timetable-list');
+
     // 初期データ読み込み
-    loadTimetable();
-    
-    // フォーム送信時の処理
+    loadSubjects();
+
+    // フォーム送信処理
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const day = dayInput.value;
-      const period = periodInput.value;
       const subject = subjectInput.value;
-      const room = roomInput.value;
-      
-      if (!day || !period || !subject) {
-        alert('曜日、時限、科目名は必須です');
-        return;
-      }
-      
+      if (!subject) return;
+
       try {
         const res = await fetch('/api/timetable', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ day, period, subject, room })
+          body: JSON.stringify({ subject })
         });
-        
-        if (!res.ok) {
-          throw new Error('登録に失敗しました');
-        }
-        
+
         const data = await res.json();
-        
-        // フォームをリセット
-        dayInput.value = '';
-        periodInput.value = '';
         subjectInput.value = '';
-        roomInput.value = '';
-        
-        // 時間割を再読み込み
-        loadTimetable();
-        
+        loadSubjects(); // 再読み込み
       } catch (error) {
         console.error('エラー:', error);
-        alert('登録に失敗しました: ' + error.message);
       }
     });
-    
-    // 時間割データを読み込む関数
-    async function loadTimetable() {
+
+    // 科目一覧読み込み
+    async function loadSubjects() {
       try {
         const res = await fetch('/api/timetable');
-        
-        if (!res.ok) {
-          throw new Error('データの取得に失敗しました');
-        }
-        
         const data = await res.json();
         
-        // 一覧表示を更新
-        renderSubjectList(data);
-        
-        // 時間割表を更新
-        renderTimetable(data);
-        
+        list.innerHTML = '';
+        data.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item.subject;
+          list.appendChild(li);
+        });
       } catch (error) {
         console.error('データ取得エラー:', error);
-      }
-    }
-    
-    // 一覧表示を更新する関数
-    function renderSubjectList(items) {
-      subjectList.innerHTML = '';
-      
-      if (items.length === 0) {
-        const emptyMessage = document.createElement('p');
-        emptyMessage.textContent = '登録された科目はありません';
-        subjectList.appendChild(emptyMessage);
-        return;
-      }
-      
-      items.forEach((item, index) => {
-        const li = document.createElement('li');
-        
-        const info = document.createElement('span');
-        info.textContent = `${item.day}曜${item.period}限: ${item.subject} ${item.room ? `(${item.room})` : ''}`;
-        
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = '削除';
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.addEventListener('click', () => deleteSubject(index));
-        
-        li.appendChild(info);
-        li.appendChild(deleteBtn);
-        subjectList.appendChild(li);
-      });
-    }
-    
-    // 時間割表を更新する関数
-    function renderTimetable(items) {
-      // すべてのセルをクリア
-      const cells = document.querySelectorAll('.timetable td');
-      cells.forEach(cell => {
-        cell.innerHTML = '';
-      });
-      
-      // 各科目を配置
-      items.forEach(item => {
-        const cellId = `cell-${item.day}-${item.period}`;
-        const cell = document.getElementById(cellId);
-        
-        if (cell) {
-          const subjectDiv = document.createElement('div');
-          subjectDiv.className = 'subject-item';
-          subjectDiv.textContent = item.subject;
-          
-          if (item.room) {
-            const roomSpan = document.createElement('small');
-            roomSpan.textContent = ` (${item.room})`;
-            subjectDiv.appendChild(roomSpan);
-          }
-          
-          cell.appendChild(subjectDiv);
-        }
-      });
-    }
-    
-    // 科目を削除する関数
-    async function deleteSubject(index) {
-      try {
-        const res = await fetch(`/api/timetable/${index}`, {
-          method: 'DELETE',
-        });
-        
-        if (!res.ok) {
-          throw new Error('削除に失敗しました');
-        }
-        
-        // 時間割を再読み込み
-        loadTimetable();
-        
-      } catch (error) {
-        console.error('削除エラー:', error);
-        alert('削除に失敗しました: ' + error.message);
       }
     }
   </script>
