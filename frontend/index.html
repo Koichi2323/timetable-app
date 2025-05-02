@@ -3,28 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>時間割アプリ</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    input, button {
-      padding: 8px;
-      margin: 5px 0;
-    }
-  </style>
 </head>
 <body>
   <h1>時間割アプリ</h1>
 
   <form id="timetable-form">
-    <input type="text" id="subject" placeholder="科目名を入力" required>
+    <input type="text" id="subject" placeholder="科目名を入力">
     <button type="submit">登録</button>
   </form>
 
-  <h2>登録した科目</h2>
   <ul id="timetable-list"></ul>
 
   <script>
@@ -32,46 +19,23 @@
     const subjectInput = document.getElementById('subject');
     const list = document.getElementById('timetable-list');
 
-    // 初期データ読み込み
-    loadSubjects();
-
-    // フォーム送信処理
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const subject = subjectInput.value;
       if (!subject) return;
 
-      try {
-        const res = await fetch('/api/timetable', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ subject })
-        });
+      const res = await fetch('/api/timetable', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subject })
+      });
 
-        const data = await res.json();
-        subjectInput.value = '';
-        loadSubjects(); // 再読み込み
-      } catch (error) {
-        console.error('エラー:', error);
-      }
+      const data = await res.json();
+      const li = document.createElement('li');
+      li.textContent = data.subject;
+      list.appendChild(li);
+      subjectInput.value = '';
     });
-
-    // 科目一覧読み込み
-    async function loadSubjects() {
-      try {
-        const res = await fetch('/api/timetable');
-        const data = await res.json();
-        
-        list.innerHTML = '';
-        data.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item.subject;
-          list.appendChild(li);
-        });
-      } catch (error) {
-        console.error('データ取得エラー:', error);
-      }
-    }
   </script>
 </body>
 </html>
