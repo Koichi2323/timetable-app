@@ -4,14 +4,12 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-// ミドルウェア
 app.use(cors());
 app.use(express.json());
 
-// ① HTMLなどを返す設定（←これが超重要！！）
+// ✅ フロントエンド配信設定
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// ② APIエンドポイント
 const timetable = [];
 
 app.post('/api/timetable', (req, res) => {
@@ -27,7 +25,6 @@ app.get('/api/timetable', (req, res) => {
   res.json(timetable);
 });
 
-// サーバー起動
 app.listen(port, () => {
   console.log(`サーバーが http://localhost:${port} で起動しました`);
 });
