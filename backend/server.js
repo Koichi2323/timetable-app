@@ -1,11 +1,20 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
-const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('APIサーバーが動いています！');
+app.use(cors()); // ← 追加
+app.use(express.json());
+app.use(express.static('frontend')); // ← フロント表示用
+
+const timetable = [];
+
+app.post('/api/timetable', (req, res) => {
+  const { subject } = req.body;
+  timetable.push({ subject });
+  res.json({ subject });
 });
 
-app.listen(port, () => {
-  console.log(`サーバーが http://localhost:${port} で起動しました`);
+app.listen(3000, () => {
+  console.log('サーバーが http://localhost:3000 で起動しました');
 });
+
