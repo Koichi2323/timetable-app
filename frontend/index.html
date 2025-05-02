@@ -1,41 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>時間割アプリ</title>
-</head>
-<body>
-  <h1>時間割アプリ</h1>
-
-  <form id="timetable-form">
-    <input type="text" id="subject" placeholder="科目名を入力">
-    <button type="submit">登録</button>
-  </form>
-
-  <ul id="timetable-list"></ul>
-
-  <script>
-    const form = document.getElementById('timetable-form');
-    const subjectInput = document.getElementById('subject');
-    const list = document.getElementById('timetable-list');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const subject = subjectInput.value;
-      if (!subject) return;
-
-      const res = await fetch('/api/timetable', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject })
-      });
-
-      const data = await res.json();
-      const li = document.createElement('li');
-      li.textContent = data.subject;
-      list.appendChild(li);
-      subjectInput.value = '';
-    });
-  </script>
-</body>
+<html>
+  <head><title>Test</title></head>
+  <body><h1>Hello from HTML</h1></body>
 </html>
