@@ -1,17 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 const port = 3000;
 
-// フロント表示用に必要な設定
+// ミドルウェア
 app.use(cors());
 app.use(express.json());
-app.use(express.static('frontend'));
 
-// 仮のデータ保存
+// ① HTMLなどを返す設定（←これが超重要！！）
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+// ② APIエンドポイント
 const timetable = [];
 
-// フォームからの登録処理
 app.post('/api/timetable', (req, res) => {
   const { subject } = req.body;
   if (!subject) {
@@ -21,7 +23,6 @@ app.post('/api/timetable', (req, res) => {
   res.json({ subject });
 });
 
-// 一覧取得（おまけ）
 app.get('/api/timetable', (req, res) => {
   res.json(timetable);
 });
@@ -30,4 +31,3 @@ app.get('/api/timetable', (req, res) => {
 app.listen(port, () => {
   console.log(`サーバーが http://localhost:${port} で起動しました`);
 });
-
